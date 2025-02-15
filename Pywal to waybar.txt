@@ -1,0 +1,23 @@
+@import url("file://~/.cache/wal/colors-waybar.css");
+
+* {
+    border: none;
+    border-radius: 5px;
+    font-family: JetBrainsMono, monospace;
+    font-size: 14px;
+    min-height: 0;
+}
+
+#waybar {
+    background: @background;
+    color: @foreground;
+}
+
+#workspaces button {
+    background: @color1;
+}
+
+#clock {
+    background: @color2;
+    color: @foreground;
+}
