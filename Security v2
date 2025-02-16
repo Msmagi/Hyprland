@@ -1,0 +1,70 @@
+#!/bin/bash
+
+echo "Starting Arch Linux security setup..."
+
+# Ensure the script is run as root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root. Use sudo!" 
+   exit 1
+fi
+
+# Update system
+echo "Updating system..."
+sudo pacman -Syu --noconfirm
+
+# Install security essentials manually
+echo "Installing essential security packages..."
+sudo pacman -S --noconfirm ufw fail2ban apparmor reflector firejail
+
+# Enable and configure UFW firewall
+echo "Setting up UFW firewall..."
+sudo systemctl enable --now ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp  # Allow SSH (modify as needed)
+sudo ufw enable
+
+# Enable Fail2Ban to prevent brute-force attacks
+echo "Enabling Fail2Ban..."
+sudo systemctl enable --now fail2ban
+
+# Enable AppArmor for Mandatory Access Control
+echo "Enabling AppArmor..."
+sudo systemctl enable --now apparmor
+
+# Secure SSH by disabling root login
+echo "Securing SSH..."
+sudo sed -i 's/^#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+
+# Set up automatic updates
+echo "Setting up automatic updates..."
+sudo tee /etc/systemd/system/pacman-update.timer > /dev/null <<EOF
+[Unit]
+Description=Automatic Pacman Update Timer
+
+[Timer]
+OnCalendar=*-*-* 04:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+sudo tee /etc/systemd/system/pacman-update.service > /dev/null <<EOF
+[Unit]
+Description=Update system packages
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pacman -Syu --noconfirm
+EOF
+
+sudo systemctl enable --now pacman-update.timer
+
+# Optimize mirrors with Reflector
+echo "Optimizing mirrors with Reflector..."
+sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+sudo systemctl enable --now reflector.timer
+
+echo "Security setup complete! Your Arch Linux installation is now more secure."
