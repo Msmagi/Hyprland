@@ -1,0 +1,46 @@
+/* General window background */
+window {
+    background-color: #1e1e1e;
+    color: #e0e0e0; /* Light gray text for contrast */
+}
+
+/* Buttons */
+button {
+    background-color: #333333;
+    color: #ffffff; /* White text for better readability */
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #555555;
+}
+
+button:hover {
+    background-color: #444444;
+    border-color: #777777;
+}
+
+/* Text fields (Entry, TextView) */
+entry, textview {
+    background-color: #252525;
+    color: #f0f0f0; /* Light text */
+    border: 1px solid #777777;
+}
+
+/* Selected text */
+selection {
+    background-color: #5555aa;
+    color: #ffffff; /* White text for selected areas */
+}
+
+/* Scrollbars */
+scrollbar {
+    background-color: #252525;
+}
+
+scrollbar slider {
+    background-color: #777777;
+    border-radius: 5px;
+}
+
+scrollbar slider:hover {
+    background-color: #999999;
+}
