@@ -1,0 +1,33 @@
+/* General window background */
+window {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Buttons */
+button {
+    background-color: #333333;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+button:hover {
+    background-color: #444444;
+}
+
+/* Entries (text fields) */
+entry, textview {
+    background-color: #252525;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+/* Scrollbars */
+scrollbar {
+    background-color: #252525;
+}
+
+scrollbar slider {
+    background-color: #555555;
+}
